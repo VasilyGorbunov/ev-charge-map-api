@@ -19,58 +19,25 @@ class RouteController extends Controller
             $route->range = $request->get('range');
             $route->save();
 
-        return response()->json([
-            'message' => 'The route was added successfully',
-            'route' => $route
-        ]);
-        } catch(Exception $e) {
+            return response()->json([
+                'message' => 'The route was added successfully',
+                'route' => $route
+            ]);
+        } catch (Exception $e) {
             return response()->json(['error' => 'Something went wrong saving the route'], 400);
         }
-        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Route  $route
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Route $route)
+    public function destroy(int $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Route  $route
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Route $route)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Route  $route
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Route $route)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Route  $route
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Route $route)
-    {
-        //
+        try {
+            $route = Route::findOrFail($id);
+            $route->delete();
+            return response()->json([
+                'success' => 'The route was deleted successfully'
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Something went wrong delete the route'], 400);
+        }
     }
 }
